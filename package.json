@@ -1,0 +1,15 @@
+{
+  "name": "trusttrove-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Decentralized Trade Finance on Stellar",
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter @trusttrove/sdk build && pnpm --filter web build",
+    "lint": "pnpm --filter web lint",
+    "typecheck": "pnpm -r exec tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
