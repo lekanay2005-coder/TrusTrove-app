@@ -278,3 +278,14 @@ func IsEventProcessed(ctx context.Context, eventID string) (bool, error) {
 	}
 	return exists, nil
 }
+
+func GetLatestProcessedLedger(ctx context.Context) (int32, error) {
+	query := `SELECT COALESCE(MAX(ledger), 0) FROM events_log`
+	var ledger int32
+	err := Pool.QueryRow(ctx, query).Scan(&ledger)
+	if err != nil {
+		return 0, fmt.Errorf("queries: get latest processed ledger: %w", err)
+	}
+	return ledger, nil
+}
+
