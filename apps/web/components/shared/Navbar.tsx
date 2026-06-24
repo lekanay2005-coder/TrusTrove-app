@@ -7,17 +7,20 @@ import { WalletConnect } from './WalletConnect';
 import { SkeletonShimmer } from './SkeletonLoader';
 import { useWalletStore } from '@/store/wallet';
 import { useBalances } from '@/hooks/useBalances';
+import { useProfile } from '@/hooks/useProfile';
 import { Wallet, Shield, Terminal, ExternalLink } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
   const { role, setRole, connected } = useWalletStore();
   const { balances, loading: balancesLoading } = useBalances();
+  const { isVerified } = useProfile();
 
   const navItems = [
     { name: 'SME Dashboard', href: '/dashboard' },
     { name: 'LP Portal', href: '/lp' },
     { name: 'Marketplace', href: '/marketplace' },
+    { name: 'Profile', href: '/profile' },
   ];
 
   return (
@@ -41,13 +44,16 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wider uppercase transition-all duration-200 border ${
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-bold font-mono tracking-wider uppercase transition-all duration-200 border flex items-center gap-1.5 ${
                       isActive
                         ? 'bg-primary/5 border-primary/20 text-primary'
                         : 'border-transparent text-slate-400 hover:text-white hover:bg-slate-900/50'
                     }`}
                   >
-                    {item.name}
+                    <span>{item.name}</span>
+                    {item.name === 'Profile' && connected && isVerified && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" title="Verified Profile" />
+                    )}
                   </Link>
                 );
               })}

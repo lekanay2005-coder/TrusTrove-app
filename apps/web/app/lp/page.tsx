@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { PageLayout } from '@/components/shared/PageLayout';
 import { usePool } from '@/hooks/usePool';
 import { useWalletStore } from '@/store/wallet';
+import { useProfile } from '@/hooks/useProfile';
 import { WalletConnect } from '@/components/shared/WalletConnect';
 import { PoolStatsPanelSkeleton, LPPositionCardSkeleton } from '@/components/shared/SkeletonLoader';
 import { Button } from '@/components/ui/button';
@@ -22,8 +24,7 @@ const poolContractID = process.env.NEXT_PUBLIC_POOL_CONTRACT_ID || '';
 
 export default function LPDashboard() {
   const { connected, address } = useWalletStore();
-
-
+  const { isVerified } = useProfile();
   const {
     stats,
     isStatsLoading,
@@ -202,6 +203,19 @@ export default function LPDashboard() {
             Supply USDC liquidity to automate invoice discounting and capture trade yield.
           </p>
         </div>
+
+        {/* Warning Banner for Unverified Profiles */}
+        {!isVerified && (
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 flex items-start gap-3 font-mono text-xs text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.02)]">
+            <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <span className="font-bold uppercase">Profile Verification Required</span>
+              <p className="text-slate-400 leading-relaxed text-[11px]">
+                Your connected wallet address is not verified on-chain. To supply liquidity, redeem LP shares, or capture yield, you must register your business credentials. Go to the <Link href="/profile" className="text-primary hover:underline font-bold">[Profile Page]</Link> to register.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* 2-Panel Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -415,8 +429,12 @@ export default function LPDashboard() {
                   </div>
                   <Button
                     type="submit"
-                    disabled={isDepositing}
-                    className="w-full bg-primary hover:bg-primary-hover text-black font-bold uppercase text-xs tracking-wider rounded py-2 shadow-[0_0_15px_rgba(0,212,170,0.1)]"
+                    disabled={isDepositing || !isVerified}
+                    className={`w-full font-bold uppercase text-xs tracking-wider rounded py-2 transition-all ${
+                      isVerified
+                        ? 'bg-primary hover:bg-primary-hover text-black shadow-[0_0_15px_rgba(0,212,170,0.1)]'
+                        : 'bg-neutral-800 text-slate-500 border border-neutral-700 cursor-not-allowed opacity-60'
+                    }`}
                   >
                     {isDepositing ? 'DEPOSITING...' : `DEPOSIT ${depositAsset}`}
                   </Button>
@@ -452,8 +470,12 @@ export default function LPDashboard() {
                   </div>
                   <Button
                     type="submit"
-                    disabled={isWithdrawing}
-                    className="w-full bg-slate-900 border border-border hover:bg-slate-800 text-slate-300 font-bold uppercase text-xs tracking-wider rounded py-2"
+                    disabled={isWithdrawing || !isVerified}
+                    className={`w-full font-bold uppercase text-xs tracking-wider rounded py-2 transition-all ${
+                      isVerified
+                        ? 'bg-slate-900 border border-border hover:bg-slate-800 text-slate-300'
+                        : 'bg-neutral-800 text-slate-500 border border-neutral-700 cursor-not-allowed opacity-60'
+                    }`}
                   >
                     {isWithdrawing ? 'REDEEMING...' : 'REDEEM SHARES'}
                   </Button>
