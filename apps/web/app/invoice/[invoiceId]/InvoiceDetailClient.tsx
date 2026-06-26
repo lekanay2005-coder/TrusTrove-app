@@ -182,6 +182,7 @@ export default function InvoiceDetailClient({ invoiceId }: InvoiceDetailClientPr
               <button
                 onClick={() => copyToClipboard(invoice.id, 'id')}
                 className="text-slate-600 hover:text-primary transition-colors"
+                aria-label="Copy invoice ID"
               >
                 {copiedId ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               </button>

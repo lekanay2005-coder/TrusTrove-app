@@ -128,6 +128,7 @@ export function InvoiceCard({ invoice, role, onSelect, isSelected }: InvoiceCard
                 copyToClipboard(invoice.id, 'id');
               }}
               className="text-slate-600 hover:text-primary transition-colors p-0.5"
+              aria-label="Copy invoice ID"
             >
               {copiedId ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
             </button>
@@ -163,6 +164,7 @@ export function InvoiceCard({ invoice, role, onSelect, isSelected }: InvoiceCard
                 copyToClipboard(invoice.buyer, 'buyer');
               }}
               className="text-slate-600 hover:text-primary transition-colors"
+              aria-label="Copy buyer address"
             >
               {copiedBuyer ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
             </button>
@@ -404,6 +406,7 @@ export function InvoiceCard({ invoice, role, onSelect, isSelected }: InvoiceCard
               <button
                 onClick={handleCancelConfirmation}
                 className="text-slate-500 hover:text-slate-300 transition-colors"
+                aria-label="Close confirmation dialog"
               >
                 <X className="w-4 h-4" />
               </button>
