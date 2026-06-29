@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useWalletStore } from "@/store/wallet";
 import { signTransaction } from "@stellar/freighter-api";
-import { Networks } from "@stellar/stellar-sdk";
 import { fetchChallenge, verifyChallenge } from "@/lib/api";
 
 /**
@@ -56,9 +55,8 @@ export function useAuth() {
       const stellarNetwork =
         rawNetwork.toUpperCase() === "PUBLIC" ? "PUBLIC" : "TESTNET";
       const signedXdr = await signTransaction(transaction, {
-        network: stellarNetwork,
-        networkPassphrase:
-          process.env.NEXT_PUBLIC_NETWORK_PASSPHRASE || network_passphrase,
+        network: "TESTNET",
+        networkPassphrase: network_passphrase,
         accountToSign: address,
       });
 
