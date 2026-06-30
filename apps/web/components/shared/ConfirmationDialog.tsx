@@ -73,7 +73,8 @@ export function ConfirmationDialog() {
             Cancel
           </Button>
           <Button
-            className="flex-1 bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-bold uppercase py-2"
+            variant="destructive"
+            className="flex-1 text-[10px] font-bold uppercase py-2"
             onClick={handleConfirm}
           >
             CONFIRM
